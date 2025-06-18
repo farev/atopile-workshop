@@ -7240,6 +7240,19 @@
 		(layer "Edge.Cuts")
 		(uuid "fb0171b8-786a-46bf-839e-40f9e95cf9dd")
 	)
+	(gr_text "Fabian Arévalo - 2025\nMade with atopile"
+		(at 230 105 0)
+		(layer "B.SilkS")
+		(uuid "0083f9d2-c27a-4362-a756-b8ee2d27b7df")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.3)
+				(bold yes)
+			)
+			(justify left bottom mirror)
+		)
+	)
 	(via
 		(at 105 83.5)
 		(size 0.6)
