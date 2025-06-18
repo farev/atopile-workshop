@@ -1,0 +1,32 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component ARKLED_SZ421288N_64_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C2980922", date="2025-06-18T18:41:11.335689+00:00", checksum="8b12aac027b156000cba963b1680e25acb1667c66a87e5ae970174b7f11d4f08">
+
+    trait is_atomic_part<manufacturer="ARKLED", partnumber="SZ421288N/64", footprint="LED-SEG-TH_SZ421288N-64.kicad_mod", symbol="SZ421288N_64.kicad_sym", model="LED-SEG-TH_SZ421288N-64.STEP">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C2980922", manufacturer="ARKLED", partno="SZ421288N/64">
+    trait has_designator_prefix<prefix="U">
+
+    # pins
+    signal COL1 ~ pin 13
+    signal COL2 ~ pin 3
+    signal COL3 ~ pin 4
+    signal COL4 ~ pin 10
+    signal COL5 ~ pin 6
+    signal COL6 ~ pin 11
+    signal COL7 ~ pin 15
+    signal COL8 ~ pin 16
+    signal ROW1 ~ pin 9
+    signal ROW2 ~ pin 14
+    signal ROW3 ~ pin 8
+    signal ROW4 ~ pin 12
+    signal ROW5 ~ pin 1
+    signal ROW6 ~ pin 7
+    signal ROW7 ~ pin 2
+    signal ROW8 ~ pin 5

@@ -1,0 +1,40 @@
+#pragma experiment("TRAITS")
+import has_designator_prefix
+import has_part_picked
+import is_atomic_part
+import is_auto_generated
+
+component HGSEMI_MAX7219M_TR_package:
+    # This trait marks this file as auto-generated
+    # If you want to manually change it, remove the trait
+    trait is_auto_generated<system="ato_part", source="easyeda:C6705351", date="2025-06-18T19:04:31.196403+00:00", checksum="a782d2ea543221daf0acc93fa8c52546ab96e56ed831bd03adeab4c7966c6d0d">
+
+    trait is_atomic_part<manufacturer="HGSEMI", partnumber="MAX7219M/TR", footprint="SOP-24_L15.4-W7.5-P1.27-LS10.4-BL.kicad_mod", symbol="MAX7219M_TR.kicad_sym", model="SOP-24_L15.4-W7.5-P1.27-LS10.4-BL.step">
+    trait has_part_picked::by_supplier<supplier_id="lcsc", supplier_partno="C6705351", manufacturer="HGSEMI", partno="MAX7219M/TR">
+    trait has_designator_prefix<prefix="U">
+
+    # pins
+    signal CLK ~ pin 13
+    signal DIG0 ~ pin 2
+    signal DIG1 ~ pin 11
+    signal DIG2 ~ pin 6
+    signal DIG3 ~ pin 7
+    signal DIG4 ~ pin 3
+    signal DIG5 ~ pin 10
+    signal DIG6 ~ pin 5
+    signal DIG7 ~ pin 8
+    signal DIN ~ pin 1
+    signal DOUT ~ pin 24
+    signal GND ~ pin 4
+    GND ~ pin 9
+    signal ISET ~ pin 18
+    signal LOADCSh ~ pin 12
+    signal SEGA ~ pin 14
+    signal SEGB ~ pin 16
+    signal SEGC ~ pin 20
+    signal SEGD ~ pin 23
+    signal SEGDP ~ pin 22
+    signal SEGE ~ pin 21
+    signal SEGF ~ pin 15
+    signal SEGG ~ pin 17
+    signal Vpos ~ pin 19
