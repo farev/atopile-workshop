@@ -1,4 +1,105 @@
+#pragma experiment("FOR_LOOP")
+#pragma experiment("BRIDGE_CONNECT")
 """Brand new atopile project!"""
+import ElectricPower
+import Capacitor
+
+from "parts/Espressif_Systems_ESP32_WROOM_32E_N4/Espressif_Systems_ESP32_WROOM_32E_N4.ato" import Espressif_Systems_ESP32_WROOM_32E_N4_package
+from "parts/Espressif_Systems_ESP32_S3_WROOM_1_N16R2/Espressif_Systems_ESP32_S3_WROOM_1_N16R2.ato" import Espressif_Systems_ESP32_S3_WROOM_1_N16R2_package
+from "parts/ARKLED_SZ421288N_64/ARKLED_SZ421288N_64.ato" import ARKLED_SZ421288N_64_package
+from "parts/HGSEMI_MAX7219M_TR/HGSEMI_MAX7219M_TR.ato" import HGSEMI_MAX7219M_TR_package
+from "parts/Texas_Instruments_SN74AHCT125DR/Texas_Instruments_SN74AHCT125DR.ato" import Texas_Instruments_SN74AHCT125DR_package
+from "parts/Shenzhen_Kinghelm_Elec_KH_TYPE_C_16P/Shenzhen_Kinghelm_Elec_KH_TYPE_C_16P.ato" import Shenzhen_Kinghelm_Elec_KH_TYPE_C_16P_driver
+from "parts/Advanced_Monolithic_Systems_AMS1117_3_3/Advanced_Monolithic_Systems_AMS1117_3_3.ato" import Advanced_Monolithic_Systems_AMS1117_3_3_driver
+
+
+module DriverDisplay:
+    display = new ARKLED_SZ421288N_64_package
+    driver = new HGSEMI_MAX7219M_TR_package
+
+    # Expose power and control signals
+    power_5v = new ElectricPower
+    power_gnd = new ElectricPower
+    signal din
+    signal dout  
+    signal clk
+    signal cs
+
+    # Internal power connections
+    power_5v.vcc ~ driver.Vpos
+    power_gnd.gnd ~ driver.GND
+
+    # Expose driver control signals
+    din ~ driver.DIN
+    dout ~ driver.DOUT
+    clk ~ driver.CLK
+    cs ~ driver.LOADCSh
+
+    # Internal connections between driver and display
+    driver.SEGA ~ display.COL1
+    driver.SEGB ~ display.COL2
+    driver.SEGC ~ display.COL3
+    driver.SEGD ~ display.COL4
+    driver.SEGE ~ display.COL5
+    driver.SEGF ~ display.COL6
+    driver.SEGG ~ display.COL7
+    driver.SEGDP ~ display.COL8
+
+    # MAX7219 digit pins to LED matrix row pins
+    driver.DIG0 ~ display.ROW1
+    driver.DIG1 ~ display.ROW2
+    driver.DIG2 ~ display.ROW3
+    driver.DIG3 ~ display.ROW4
+    driver.DIG4 ~ display.ROW5
+    driver.DIG5 ~ display.ROW6
+    driver.DIG6 ~ display.ROW7
+    driver.DIG7 ~ display.ROW8
 
 module App:
-    pass
+   mcu = new Espressif_Systems_ESP32_S3_WROOM_1_N16R2_package
+   usb_conn = new Shenzhen_Kinghelm_Elec_KH_TYPE_C_16P_driver
+   regulator = new Advanced_Monolithic_Systems_AMS1117_3_3_driver
+
+   # Power
+   power_5v = new ElectricPower
+   power_3v3 = new ElectricPower
+   power_5v ~> regulator ~> power_3v3
+
+   # USB Power
+   power_5v.vcc ~ usb_conn.power.vcc
+   power_5v.gnd ~ usb_conn.power.gnd
+
+   capacitors = new Capacitor[4]
+   for capacitor in capacitors:
+      capacitor.capacitance = 1uF +/- 10%
+      capacitor.package = "C0402"
+
+   # Capacitors
+   capacitors[0].power ~ power_5v
+   capacitors[1].power ~ power_5v
+   capacitors[2].power ~ power_3v3
+   capacitors[3].power ~ power_3v3
+
+   # USB Data
+   usb_conn.usb2.d.p.line ~ mcu.IO20
+   usb_conn.usb2.d.n.line ~ mcu.IO19
+
+   # MCU Power
+   power_3v3.vcc ~ mcu.P3V3
+   power_3v3.gnd ~ mcu.GND
+
+   display1 = new DriverDisplay
+   display2 = new DriverDisplay
+   display3 = new DriverDisplay
+   display4 = new DriverDisplay
+
+   # Display SPI signals
+   for display in [display1, display2, display3, display4]:
+      display.din ~ mcu.IO11
+      display.clk ~ mcu.IO12
+      display.power_5v ~ power_5v
+
+   mcu.IO4 ~ display1.cs
+   mcu.IO5 ~ display2.cs
+   mcu.IO6 ~ display3.cs
+   mcu.IO7 ~ display4.cs
